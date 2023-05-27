@@ -22,11 +22,28 @@ In my case with vendor id **0483** and product id **5740**.
 Bus 003 Device 018: ID 0483:5740 STMicroelectronics Virtual COM Port
 ```
 
-So for the NUT service tobe able to0 use the new serial interface, it is necessary 
+So for the NUT service to be able to use the new serial interface, it is necessary 
 to create a rule for the UDEV to change permissions. 
 It is also interesting to create a symbolic link so that the interface remains constant.
 
+For this you need to create the file `/etc/udev/rules.d/99-ups-tsshara.rules`
 
 ```bash
 SUBSYSTEM=="tty",ATTRS{idVendor}=="0483",ATTRS{idProduct}=="5740",GROUP="nut",OWNER="nut",MODE="0660",SYMLINK+="ttyTSSHARA"
+```
+
+```bash
+sudo udevadm control --reload
+sudo udevadm trigger
+```
+
+After that, it is necessary to verify that the settings worked and that 
+the permissions were applied, in addition, the symbolic link must have been created.
+
+```bash
+ls -l /dev/ttyACM0
+crw-rw---- 1 nut nut 166, 0 mai 27 16:29 /dev/ttyACM0
+
+ls -l /dev/ttyTSSHARA
+lrwxrwxrwx 1 root root 7 mai 27 14:49 /dev/ttyTSSHARA -> ttyACM0
 ```
