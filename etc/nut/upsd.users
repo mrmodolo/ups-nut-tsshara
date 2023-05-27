@@ -1,0 +1,5 @@
+[upsmon]
+  password = "<PASSWORD>"
+  upsmon master
+  actions = SET
+  instcmds = ALL
