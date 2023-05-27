@@ -57,7 +57,7 @@ Below all the files that have been changed to allow the operation.
 
 - [nut.conf](etc/nut/nut.conf)
 - [ups.conf](etc/nut/ups.conf)
-- [upsd.conf](etc/nut/upsd.conf)
+- [upsd.users](etc/nut/upsd.users)
 - [upsmon.conf](etc/nut/upsmon.conf)
 - [upssched.conf](etc/nut/upssched.conf)
 
@@ -74,11 +74,73 @@ maxretry = 3
   desc = "TS Shara"
 ``` 
 
-## Tests
+## Verify Driver configuration
 
+Start the driver.
+
+```bash
 sudo upsdrvctl start
+```
 
+## upsd configuration
+
+Configure the file [upsd.users](etc/nut/upsd.users), I didn't have to change anything in the file
+`/etc/nut/upsd.conf`.
+
+```toml
+[upsmon]
+  password = "<PASSWORD>"
+  upsmon master
+  actions = SET
+  instcmds = ALL
+``` 
+
+```bash
+sudo systemctl start nut-server.service
+
+sudo systemctl status nut-server.service
+
+sudo systemctl enable nut-server.service
+
+```
+
+If the service goes up correctly, it is already possible to consult the status of the UPS.
+
+```bash
 upsc tsshara
+
+Init SSL without certificate database
+battery.charge: 100
+battery.voltage: 27.00
+battery.voltage.high: 26.00
+battery.voltage.low: 20.80
+battery.voltage.nominal: 24.0
+device.mfr: TS SHARA 221011
+device.model: Senoid  22
+device.type: ups
+driver.name: blazer_ser
+driver.parameter.pollinterval: 2
+driver.parameter.port: /dev/ttyTSSHARA
+driver.parameter.synchronous: no
+driver.version: 2.7.4
+driver.version.internal: 1.57
+input.current.nominal: 100.0
+input.frequency: 60.0
+input.frequency.nominal: 60
+input.voltage: 208.0
+input.voltage.fault: 208.0
+output.voltage: 121.0
+ups.beeper.status: enabled
+ups.delay.shutdown: 30
+ups.delay.start: 180
+ups.firmware: V010201010
+ups.load: 8
+ups.mfr: TS SHARA 221011
+ups.model: Senoid  22
+ups.status: OL
+ups.temperature: 24.0
+ups.type: offline / line interactive
+```
 
 ## Links and References
 
