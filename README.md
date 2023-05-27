@@ -171,9 +171,18 @@ NOTIFYFLAG ONLINE SYSLOG+WALL+EXEC
 It is necessary to start and activate the service.
 
 ```bash
-sudo start nut-monitor.service
+sudo systemctl start nut-monitor.service
 
-sudo enable nut-monitor.service
+sudo systemctl enable nut-monitor.service
+```
+
+## Enable NUT after reboot
+
+```bash
+sudo systemctl enable nut.target
+
+sudo systemctl enable nut-driver.target
+
 ```
 
 ## Links and References
