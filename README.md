@@ -69,7 +69,7 @@ In the etc/nut/ups.conf file we configure the driver and the port created by UDE
 maxretry = 3
 
 [tsshara]
-  driver = blazer_ser
-  port = /dev/ttyTSSHARA
+  driver = "blazer_ser"
+  port = "/dev/ttyTSSHARA"
   desc = "TS Shara"
 ```  
