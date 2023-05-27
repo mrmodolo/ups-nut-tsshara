@@ -24,6 +24,21 @@ In my case with vendor id **0483** and product id **5740**.
 Bus 003 Device 018: ID 0483:5740 STMicroelectronics Virtual COM Port
 ```
 
+```bash
+udevadm info -a -n /dev/ttyACM0
+```
+
+```
+...
+    ATTRS{idProduct}=="5740"
+    ATTRS{idVendor}=="0483"
+    ATTRS{manufacturer}=="STMicroelectronics"
+    ATTRS{product}=="STM32 Virtual ComPort"
+    ATTRS{serial}=="00000000001A"
+...
+
+```
+
 So for the NUT service to be able to use the new serial interface, it is necessary 
 to create a rule for the UDEV to change permissions. 
 It is also interesting to create a symbolic link so that the interface remains constant.
