@@ -72,4 +72,38 @@ maxretry = 3
   driver = "blazer_ser"
   port = "/dev/ttyTSSHARA"
   desc = "TS Shara"
-```  
+``` 
+
+## Tests
+
+sudo upsdrvctl start
+
+upsc tsshara
+
+## Links and References
+
+[Arch APC UPS](https://wiki.archlinux.org/title/APC_UPS)
+
+[Arch Network UPS Tools](https://wiki.archlinux.org/title/Network_UPS_Tools)
+
+[BLAZER_SER(8)](https://networkupstools.org/docs/man/blazer_ser.html)
+
+[Notes on securing NUT](https://networkupstools.org/historic/v2.7.4/docs/user-manual.chunked/ar01s09.html)
+
+[Network UPS Tools Overview](https://networkupstools.org/docs/user-manual.chunked/ar01s02.html#_configuring_and_using)
+
+[Network UPS Tools (NUT)](https://networkupstools.org/)
+
+[Utilizando NUT para controle de Nobreak TS SHARA com Raspberry](http://mylowtechstuff.blogspot.com/2018/02/utilizando-nut-para-controle-de-nobreak.html)
+
+[Ubuntu 18.04 + Nobreak Ts shara USB](https://github.com/rbernardes/tsshara-ubuntu-server)
+
+[How do I allow a non-default user to use serial device ttyUSB0?](https://askubuntu.com/questions/112568/how-do-i-allow-a-non-default-user-to-use-serial-device-ttyusb0)
+
+[udev re-numbering when creating symlinks](https://unix.stackexchange.com/questions/79087/udev-re-numbering-when-creating-symlinks)
+
+[UDEV rules, "NAME" variable not working](https://askubuntu.com/questions/920098/udev-rules-name-variable-not-working)
+
+[SUSE Dynamic Kernel Device Management with udev](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-udev.html)
+
+
