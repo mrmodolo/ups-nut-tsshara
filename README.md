@@ -82,12 +82,12 @@ Start the driver.
 sudo upsdrvctl start
 ```
 
-## upsd configuration
+## UPSD configuration
 
 Configure the file [upsd.users](etc/nut/upsd.users), I didn't have to change anything in the file
 `/etc/nut/upsd.conf`.
 
-```toml
+```
 [upsmon]
   password = "<PASSWORD>"
   upsmon master
@@ -106,8 +106,9 @@ sudo systemctl enable nut-server.service
 
 If the service goes up correctly, it is already possible to consult the status of the UPS.
 
+**$ upsc tsshara**
+
 ```bash
-upsc tsshara
 
 Init SSL without certificate database
 battery.charge: 100
@@ -140,6 +141,39 @@ ups.model: Senoid  22
 ups.status: OL
 ups.temperature: 24.0
 ups.type: offline / line interactive
+```
+## UPSMON Configuration
+
+Add the lines below to the file `/etc/nut/upsmon.conf`
+
+```
+MONITOR tsshara@localhost 1 upsmon "<PASSWORD>" master
+NOTIFYFLAG ONBATT SYSLOG+WALL+EXEC
+NOTIFYFLAG ONLINE SYSLOG+WALL+EXEC
+```
+
+```
+MINSUPPLIES 1
+SHUTDOWNCMD "/sbin/shutdown -h +0"
+POLLFREQ 5
+POLLFREQALERT 5
+HOSTSYNC 15
+DEADTIME 15
+POWERDOWNFLAG /etc/killpower
+RBWARNTIME 43200
+NOCOMMWARNTIME 300
+FINALDELAY 5
+MONITOR tsshara@localhost 1 upsmon "<PASSWORD>" master
+NOTIFYFLAG ONBATT SYSLOG+WALL+EXEC
+NOTIFYFLAG ONLINE SYSLOG+WALL+EXEC
+```
+
+It is necessary to start and activate the service.
+
+```bash
+sudo start nut-monitor.service
+
+sudo enable nut-monitor.service
 ```
 
 ## Links and References
