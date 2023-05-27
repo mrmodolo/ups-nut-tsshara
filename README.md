@@ -12,6 +12,8 @@ sudo apt install nut
 
 ## Configuration
 
+### UDEV
+
 The manufacturer indicates in the specifications that the UPS supports "Intelligent Communication: with USB interface".
 
 After unpacking and turning on the UPS, you can see a new USB device `STMicroelectronics Virtual COM Port`.
@@ -47,3 +49,27 @@ crw-rw---- 1 nut nut 166, 0 mai 27 16:29 /dev/ttyACM0
 ls -l /dev/ttyTSSHARA
 lrwxrwxrwx 1 root root 7 mai 27 14:49 /dev/ttyTSSHARA -> ttyACM0
 ```
+
+### NUT
+
+After installation it is necessary to change some files so that the NUT recognizes and can communicate with Ts Shara.
+Below all the files that have been changed to allow the operation.
+
+- [nut.conf](etc/nut/nut.conf)
+- [ups.conf](etc/nut/ups.conf)
+- [upsd.conf](etc/nut/upsd.conf)
+- [upsmon.conf](etc/nut/upsmon.conf)
+- [upssched.conf](etc/nut/upssched.conf)
+
+Choosing the driver and its configuration is one of the most important steps.
+
+In the etc/nut/ups.conf file we configure the driver and the port created by UDEV.
+
+```toml
+maxretry = 3
+
+[tsshara]
+  driver = blazer_ser
+  port = /dev/ttyTSSHARA
+  desc = "TS Shara"
+```  
