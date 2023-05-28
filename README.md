@@ -212,7 +212,7 @@ sudo systemctl enable nut-driver.target
 
 ```
 
-## ZHH and Powerline10K
+## "Oh My ZSH!" and Powerlevel10k
 
 I use ["Oh My ZSH!"](https://ohmyz.sh/) in my day to day with the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) 
 theme and I decided to try to create a custom prompt with some UPS information.
