@@ -148,7 +148,7 @@ device.model: Senoid  22
 device.type: ups
 driver.name: blazer_ser
 driver.parameter.pollinterval: 2
-driver.parameter.port: /dev/ttyTSSHARA
+driver.parameter.port: /dev/ttyTSSHARA0
 driver.parameter.synchronous: no
 driver.version: 2.7.4
 driver.version.internal: 1.57
