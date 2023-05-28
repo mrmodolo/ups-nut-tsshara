@@ -45,8 +45,20 @@ It is also interesting to create a symbolic link so that the interface remains c
 
 For this you need to create the file `/etc/udev/rules.d/99-ups-tsshara.rules`
 
+It is important to remember that we can have other devices with the same virtual port controller, 
+so it is important to choose a set of attributes that allows differentiating multiple UPSs even 
+if they are from the same model and manufacturer.
+
+So I chose three attributes that seem to differentiate each port connected to the computer.
+
+- ATTRS{idProduct}=="5740"
+- ATTRS{idVendor}=="0483"
+- ATTRS{serial}=="00000000001A"
+
+The symbolic link ensures that the port name is always the same, which will facilitate NUT configuration.
+
 ```bash
-SUBSYSTEM=="tty",ATTRS{idVendor}=="0483",ATTRS{idProduct}=="5740",GROUP="nut",OWNER="nut",MODE="0660",SYMLINK+="ttyTSSHARA"
+SUBSYSTEM=="tty",ATTRS{idVendor}=="0483",ATTRS{idProduct}=="5740",ATTRS{serial}=="00000000001A",GROUP="nut",OWNER="root",MODE="0660",SYMLINK+="ttyTSSHARA0"
 ```
 
 ```bash
@@ -59,10 +71,10 @@ the permissions were applied, in addition, the symbolic link must have been crea
 
 ```bash
 ls -l /dev/ttyACM0
-crw-rw---- 1 nut nut 166, 0 mai 27 16:29 /dev/ttyACM0
+crw-rw---- 1 root nut 166, 0 mai 27 16:29 /dev/ttyACM0
 
-ls -l /dev/ttyTSSHARA
-lrwxrwxrwx 1 root root 7 mai 27 14:49 /dev/ttyTSSHARA -> ttyACM0
+ls -l /dev/ttyTSSHARA0
+lrwxrwxrwx 1 root root 7 mai 27 14:49 /dev/ttyTSSHARA0 -> ttyACM0
 ```
 
 ### NUT
@@ -85,7 +97,7 @@ maxretry = 3
 
 [tsshara]
   driver = "blazer_ser"
-  port = "/dev/ttyTSSHARA"
+  port = "/dev/ttyTSSHARA0"
   desc = "TS Shara"
 ``` 
 
