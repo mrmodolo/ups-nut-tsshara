@@ -212,6 +212,13 @@ sudo systemctl enable nut-driver.target
 
 ```
 
+## ZHH and Powerline10K
+
+I use ["Oh My ZSH!"](https://ohmyz.sh/) in my day to day with the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) 
+theme and I decided to try to create a custom prompt with some UPS information.
+
+<img alt="prompt_my_ups()" src="images/images/prompt_my_ups.png">
+
 ## Links and References
 
 [Arch APC UPS](https://wiki.archlinux.org/title/APC_UPS)
