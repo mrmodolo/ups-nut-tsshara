@@ -99,6 +99,10 @@ maxretry = 3
   driver = "blazer_ser"
   port = "/dev/ttyTSSHARA0"
   desc = "TS Shara"
+  default.battery.voltage.high = "26.00"
+  default.battery.voltage.low = "20.80"
+  default.battery.voltage.nominal = "24.00"
+  runtimecal = "3600,100,7200,50"  
 ``` 
 
 ## Verify Driver configuration
