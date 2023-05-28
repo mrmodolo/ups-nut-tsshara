@@ -219,6 +219,42 @@ theme and I decided to try to create a custom prompt with some UPS information.
 
 <img alt="prompt_my_ups()" src="images/prompt_my_ups.png">
 
+Below is the function I added to the `~/.p10k.zsh` file and the configuration to add the new prompt.
+
+```zsh
+  typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+    # =========================[ Line #1 ]=========================
+    ...
+    my_ups                  # show UPS input voltage and battery charge if no power
+  )
+
+  typeset -g POWERLEVEL9K_MY_UPS_BACKGROUND=237
+  # A Resolução nº 505/2001 da Aneel – Agência Nacional de Energia Elétrica 
+  # estabelece limites de 201 a 231 V (para tensão fase-neutro) para o 
+  # fornecimento de energia elétrica pelas concessionárias no Brasil, 
+  # considerando valor nominal de 220/380V, trifásico.
+  # Máximo: 231V
+  # Média: 216V
+  # Mínima: 201V
+  #
+  function prompt_my_ups() {
+    integer input_voltage="$(upsc tsshara input.voltage 2>/dev/null)"
+    # No power
+    if (( input_voltage <= 1 )); then
+      integer battery_charge="$(upsc tsshara battery.charge 2>/dev/null)"
+      p10k segment -f red -i '🔌' -t "${battery_charge}🔋"
+      return 0
+    fi
+    if (( input_voltage < 201 || input_voltage > 231 )); then
+      p10k segment -f red -i '🔌' -t "${input_voltage}⚡"
+    elif (( input_voltage < 209 || input_voltage > 220 )); then
+      p10k segment -f yellow -i '🔌' -t "${input_voltage}⚡"
+    else
+      p10k segment -f green -i '🔌' -t "${input_voltage}⚡"
+    fi
+  }
+```
+
 ## Links and References
 
 [Arch APC UPS](https://wiki.archlinux.org/title/APC_UPS)
