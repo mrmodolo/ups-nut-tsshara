@@ -229,14 +229,13 @@ Below is the function I added to the `~/.p10k.zsh` file and the configuration to
   )
 
   typeset -g POWERLEVEL9K_MY_UPS_BACKGROUND=237
-  # A Resolução nº 505/2001 da Aneel – Agência Nacional de Energia Elétrica 
-  # estabelece limites de 201 a 231 V (para tensão fase-neutro) para o 
-  # fornecimento de energia elétrica pelas concessionárias no Brasil, 
-  # considerando valor nominal de 220/380V, trifásico.
-  # Máximo: 231V
-  # Média: 216V
-  # Mínima: 201V
-  #
+  # Aneel Resolution No. 505/2001 – National Electric Energy Agency
+  # establishes limits of 201 to 231 V (for phase-to-neutral voltage) for the
+  # electricity supply by concessionaires in Brazil,
+  # considering nominal value of 220/380V, three-phase.
+  # Maximum: 231V
+  # Average: 216V
+  # Minimum: 201V  
   function prompt_my_ups() {
     integer input_voltage="$(upsc tsshara input.voltage 2>/dev/null)"
     # No power
