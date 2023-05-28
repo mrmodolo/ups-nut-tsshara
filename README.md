@@ -257,6 +257,12 @@ Below is the function I added to the `~/.p10k.zsh` file and the configuration to
     fi
   }
 ```
+## Other Models
+
+[Nobreak 1.5Kva Ts Shara 4438 Ups 8 Tomadas E.Biv S.Chaveado](https://tsshara.com.br/produto/nobreak-ups-senoidal-universal-1500va-novo-design/?gclid=Cj0KCQjw98ujBhCgARIsAD7QeAg8e9vtDRaCtPpG8RoNwE9VNdTUkajAgu34aJDS-Z20pqZvDqlBCZgaAtd5EALw_wcB)
+
+I had the opportunity to also install and test the Ts Shara 4438 model on 
+Ubuntu 22.04 and it worked perfectly using the same BLAZER_SER driver.
 
 ## Links and References
 
