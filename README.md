@@ -217,7 +217,7 @@ sudo systemctl enable nut-driver.target
 I use ["Oh My ZSH!"](https://ohmyz.sh/) in my day to day with the [Powerlevel10k](https://github.com/romkatv/powerlevel10k) 
 theme and I decided to try to create a custom prompt with some UPS information.
 
-<img alt="prompt_my_ups()" src="images/prompt_my_ups.png">
+<img alt="prompt_my_ups()" src="images/prompt_my_ups.png" width="272" height="38">
 
 Below is the function I added to the `~/.p10k.zsh` file and the configuration to add the new prompt.
 
