@@ -280,4 +280,4 @@ Below is the function I added to the `~/.p10k.zsh` file and the configuration to
 
 [SUSE Dynamic Kernel Device Management with udev](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-udev.html)
 
-
+[ANEEL Resolution 505/2001: Quality Improvement](https://www.cgti.org.br/publicacoes/wp-content/uploads/2016/01/Resoluc%CC%A7a%CC%83o-505_2001-ANEEL-Melhoria-da-Qualidade.pdf)
