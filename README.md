@@ -7,7 +7,7 @@
 ## Installation
 
 ```bash
-sudo apt install nut
+sudo apt install nut nut-client nut-server
 ```
 
 ## Configuration
