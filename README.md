@@ -213,7 +213,18 @@ sudo systemctl enable nut-monitor.service
 sudo systemctl enable nut.target
 
 sudo systemctl enable nut-driver.target
+```
 
+```bash
+sudo systemctl status nut-driver.target
+nut-driver.target - Network UPS Tools - target for power device drivers on this system
+     Loaded: loaded (/lib/systemd/system/nut-driver.target; enabled; vendor preset: enabled)
+     Active: active since Mon 2023-05-29 10:58:06 -03; 2h 29min ago
+
+sudo systemctl status nut.target
+nut.target - Network UPS Tools - target for power device drivers, data server and monitoring client (if enabled) on this system
+     Loaded: loaded (/lib/systemd/system/nut.target; enabled; vendor preset: enabled)
+     Active: active since Mon 2023-05-29 10:58:09 -03; 2h 29min ago
 ```
 
 ## "Oh My ZSH!" and Powerlevel10k
