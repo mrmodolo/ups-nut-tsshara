@@ -58,7 +58,7 @@ So I chose three attributes that seem to differentiate each port connected to th
 The symbolic link ensures that the port name is always the same, which will facilitate NUT configuration.
 
 ```bash
-SUBSYSTEM=="tty",ATTRS{idVendor}=="0483",ATTRS{idProduct}=="5740",ATTRS{serial}=="00000000001A",GROUP="nut",OWNER="root",MODE="0660",SYMLINK+="ttyTSSHARA0"
+SUBSYSTEM=="tty",ATTRS{idVendor}=="0483",ATTRS{idProduct}=="5740",ATTRS{serial}=="00000000001A",GROUP="nut",OWNER="root",MODE="0664",SYMLINK+="ttyTSSHARA0"
 ```
 
 ```bash
