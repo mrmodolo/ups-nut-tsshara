@@ -275,6 +275,22 @@ Below is the function I added to the `~/.p10k.zsh` file and the configuration to
 I had the opportunity to also install and test the Ts Shara 4438 model on 
 Ubuntu 22.04 and it worked perfectly using the same BLAZER_SER driver.
 
+I started noticing some messages like 'stale' when trying to get the status of the UPS, 
+after some research I found the link [NUT & CyberPower UPS](https://nmaggioni.xyz/2017/03/14/NUT-CyberPower-UPS/) 
+and decided to test these settings on the equipment. 
+Let's see if the result will be successful.
+
+```
+[tsshara]
+  ...
+  pollinterval = 15
+
+/etc/nut/upsmon.conf
+  ...
+  DEADTIME 25
+  MAXAGE 25
+```
+
 ## Links and References
 
 [Arch APC UPS](https://wiki.archlinux.org/title/APC_UPS)
