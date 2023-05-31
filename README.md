@@ -281,6 +281,7 @@ and decided to test these settings on the equipment.
 Let's see if the result will be successful.
 
 ```
+/etc/nut/ups.conf
 [tsshara]
   ...
   pollinterval = 15
