@@ -310,7 +310,30 @@ to see if the problem goes away
 ```
 ## UPSLOG
 
-[UPSLOG](https://networkupstools.org/docs/man/upslog.html)
+Settings for storing log status and rotation
+
+|   Flag  |                                                                                                                                     Description                                                                                                                                    |
+|:-------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| OL      | Online. Power is provided by the wall outlet (line).                                                                                                                                                                                                                               |
+| OB      | On Battery. Power is provided by the UPS battery and inverter.                                                                                                                                                                                                                     |
+| LB      | Low Battery. The estimated charge capacity of the battery, and thus the estimated runtime, are below a threshold. This can occur when on-line or on-battery. When also on-battery, a LB condition generally causes NUT to initiate shutdown.                                       |
+| HB      | High Battery. The battery voltage is above a threshold. This is a relatively unusual problem. Typically it would indicate a bad battery or a malfunctioning UPS.                                                                                                                   |
+| RB      | Replace Battery. The UPS has decided the battery is no-good. This may be based on time in service, number of charge cycles, the results of a self-test, or anything else.                                                                                                          |
+| CHRG    | Battery Charging. The battery is not fully charged, so the UPS is charging it. My UPS never indicates this to NUT.                                                                                                                                                                 |
+| DISCHRG | Battery Discharging. Self-explanatory, but I don't know the difference between this and "OB". My UPS never indicates this to NUT.                                                                                                                                                  |
+| BYPASS  | Bypass Active. The power protection (inverter, regulators, etc.) in the UPS has been bypassed, and the load is electrically connected directly to the wall outlet. Typically occurs if the UPS detects an internal fault. Most small UPSes, mine included, lack bypass capability. |
+| ALARM   | The UPS is indicating a trouble condition, not further specified. This could be low or bad battery, high temperature, an internal fault, UPS on fire, etc.                                                                                                                         |
+| TEST    | Self Test. Most UPSes can perform a brief self-test, periodically and/or on command. This indicates such a test is in progress.                                                                                                                                                    |
+| CAL     | Runtime Calibration. Some UPSes can deliberately run the battery from full charge down to low, in order to get a better idea of the full charge point and runtime capacity.                                                                                                        |
+| OFF     | Offline. The UPS is not providing power to the connected equipment load, for whatever reason.                                                                                                                                                                                      |
+| OVER    | Overloaded. Connected equipment load is drawing more current (amps) than the UPS is designed to provide. A small and brief overload may be tolerable. A prolonged or large overload typically results in the UPS output being turned off.                                          |
+| TRIM    | Trimming Voltage. Input voltage is somewhat higher than nominal; the UPS is correcting for it. Not all UPSes can do this; those that do not can only switch to battery.                                                                                                            |
+| BOOST   | Boosting Voltage. Input voltage is somewhat lower than nominal (brownout); the UPS is correcting for it. Not all UPSes can do this; those that do not can only switch to battery.                                                                                                  |
+| FSD     | Forced Shutdown. The UPS has turned off output power in response to softgware command (typically from NUT).                                                                                                                                                                        |
+| NOCOMM  | No Communications. NUT is not receiving status information from the UPS. This may mean the UPS signal cable is disconnected, the wrong UPS parameters are configured, the UPS is faulty, a network problem (for SNMP), etc.                                                        |
+| WAIT    | Waiting. This has appeared when the daemons were just started; I presume it means the communications channels are still being initialized, so status is not available yet.                                                                                                         |
+
+[UPSLOG Manual](https://networkupstools.org/docs/man/upslog.html)
 
 [scripts/logrotate/nutlogd](https://github.com/networkupstools/nut/blob/master/scripts/logrotate/nutlogd)
 
