@@ -1,0 +1,13 @@
+[Unit]
+Description=Network UPS Tools - power device data logger
+After=local-fs.target network.target nut-server.service
+
+[Service]
+User=nut
+Group=nut
+ExecStart=/etc/nut.d/upslog.rc
+PIDFile=/var/run/nut/upslog.pid
+Type=forking
+
+[Install]
+WantedBy=multi-user.target

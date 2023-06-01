@@ -1,0 +1,11 @@
+/var/log/nut/nut-*.log {
+    su nut nut
+    missingok
+    notifempty
+    size=5M
+    rotate 12
+    monthly
+    postrotate
+	/usr/bin/killall -HUP upslog 
+    endscript
+}

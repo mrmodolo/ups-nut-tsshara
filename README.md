@@ -308,8 +308,22 @@ to see if the problem goes away
   ...
   DEADTIME 25
 ```
+## UPSLOG
+
+[UPSLOG](https://networkupstools.org/docs/man/upslog.html)
+
+[scripts/logrotate/nutlogd](https://github.com/networkupstools/nut/blob/master/scripts/logrotate/nutlogd)
+
+- [nut-logger.service](etc/systemd/system/nut-logger.service)
+- [upslog.conf](etc/nut.d/upslog.conf)
+- [upslog.rc](etc/nut.d/upslog.rc)
+- [nut](etc/logrotate.d/nut)
 
 ## Links and References
+
+[Understanding the Network UPS Tools (NUT)](https://www.dragonhawk.org/tech/nut/)
+
+[UPSLOG](https://networkupstools.org/docs/man/upslog.html)
 
 [Arch APC UPS](https://wiki.archlinux.org/title/APC_UPS)
 

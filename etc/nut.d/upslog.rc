@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. /etc/nut.d/upslog.conf || exit 1
+
+/usr/bin/upslog -s "$UPS" -f "$FORMAT" -i "$INTERVAL" -l "$FILE"
