@@ -278,7 +278,25 @@ Ubuntu 22.04 and it worked perfectly using the same BLAZER_SER driver.
 I started noticing some messages like 'stale' when trying to get the status of the UPS, 
 after some research I found the link [NUT & CyberPower UPS](https://nmaggioni.xyz/2017/03/14/NUT-CyberPower-UPS/) 
 and decided to test these settings on the equipment. 
-Let's see if the result will be successful.
+Let's see if the result will be successful...
+
+Update Jun 2023: I still have stale errors so I'm going to test the driver [nutdrv_qx](https://networkupstools.org/docs/man/nutdrv_qx.html) 
+to see if the problem goes away
+
+**/etc/nut/ups.conf**
+
+```toml
+[tsshara]
+  driver = "nutdrv_qx"
+  port = "/dev/ttyTSSHARA0"
+  default.battery.voltage.high = "26.00"
+  default.battery.voltage.low = "20.80"
+  default.battery.voltage.nominal = "24.00"
+  runtimecal = "1800,100,3600,50"
+  desc = "TS Shara"
+  protocol = "megatec"
+  pollinterval = 15
+```  
 
 ```
 /etc/nut/ups.conf
@@ -289,7 +307,6 @@ Let's see if the result will be successful.
 /etc/nut/upsmon.conf
   ...
   DEADTIME 25
-  MAXAGE 25
 ```
 
 ## Links and References
