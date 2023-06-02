@@ -212,23 +212,11 @@ sudo systemctl enable nut-monitor.service
 ```bash
 
 sudo systemctl nut-client.service   enabled
-sudo systemctl nut-driver.service   can not be enabled
+# sudo systemctl nut-driver.service   can not be enabled
 sudo systemctl nut-monitor.service  enabled
 sudo systemctl nut-server.service   enabled
 sudo systemctl nut-logger.service   enabled
 
-```
-
-```bash
-sudo systemctl status nut-driver.target
-nut-driver.target - Network UPS Tools - target for power device drivers on this system
-     Loaded: loaded (/lib/systemd/system/nut-driver.target; enabled; vendor preset: enabled)
-     Active: active since Mon 2023-05-29 10:58:06 -03; 2h 29min ago
-
-sudo systemctl status nut.target
-nut.target - Network UPS Tools - target for power device drivers, data server and monitoring client (if enabled) on this system
-     Loaded: loaded (/lib/systemd/system/nut.target; enabled; vendor preset: enabled)
-     Active: active since Mon 2023-05-29 10:58:09 -03; 2h 29min ago
 ```
 
 ## "Oh My ZSH!" and Powerlevel10k
@@ -311,7 +299,24 @@ to see if the problem goes away
 /etc/nut/upsmon.conf
   ...
   DEADTIME 25
+
+/etc/nut/upsd.conf  
+  ...
+  MAXAGE 25
 ```
+
+Still having stale errors in the driver. I found one more article to 
+test [Restart nut-driver when data stale, usb device keeps changing](https://unix.stackexchange.com/questions/333351/restart-nut-driver-when-data-stale-usb-device-keeps-changing)
+
+```
+ACTION=="add", \                                                                                       
+SUBSYSTEM=="usb", \                                                                                    
+ATTR{idVendor}=="0665", ATTR{idProduct}=="5161", \                                                     
+SYMLINK+="powerwalkerups", \                                                                           
+MODE="0660", GROUP="nut", \                                                                            
+RUN+="/bin/systemctl restart nut-driver"
+```
+
 ## UPSLOG
 
 Settings for storing log status and rotation
