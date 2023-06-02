@@ -210,9 +210,13 @@ sudo systemctl enable nut-monitor.service
 ## Enable NUT after reboot
 
 ```bash
-sudo systemctl enable nut.target
 
-sudo systemctl enable nut-driver.target
+sudo systemctl nut-client.service   enabled
+sudo systemctl nut-driver.service   can not be enabled
+sudo systemctl nut-monitor.service  enabled
+sudo systemctl nut-server.service   enabled
+sudo systemctl nut-logger.service   enabled
+
 ```
 
 ```bash
