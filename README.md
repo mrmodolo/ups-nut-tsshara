@@ -317,6 +317,26 @@ MODE="0660", GROUP="nut", \
 RUN+="/bin/systemctl restart nut-driver"
 ```
 
+[13. What’s this about data stale?](https://networkupstools.org/docs/FAQ.html#_what_8217_s_this_about_emphasis_data_stale_emphasis)
+
+It means your UPS driver hasn’t updated things in a little while. upsd refuses to serve up data that isn’t fresh, 
+so you get the errors about staleness.
+
+If this happens to you, make sure your driver is still running. Also look at the syslog. 
+Sometimes the driver loses the connection to the UPS, and that will also make the data go stale.
+
+This might also happen on certain virtualization platforms. If you cannot reproduce the problem on a physical machine, 
+please report the bug to the virtualization software vendor.
+
+If this happens a lot, you might consider cranking up DEADTIME in the upsmon.conf to suppress some of the warnings 
+for shorter intervals. Use caution when adjusting this number, since it directly affects how long you run on 
+battery without knowing what’s going on with the UPS.
+
+Note: some drivers occasionally need more time to update than the default value of MAXAGE (in upsd.conf) allows. 
+As a result, they are temporarily marked stale even though everything is fine. This can happen with MGE Ellipse 
+equipment — see the mge-shut or usbhid-ups man pages. 
+In such cases, you can raise the value of MAXAGE to avoid these warnings; try a value like 25 or 30.
+
 ## UPSLOG
 
 Settings for storing log status and rotation
