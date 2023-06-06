@@ -337,6 +337,125 @@ As a result, they are temporarily marked stale even though everything is fine. T
 equipment — see the mge-shut or usbhid-ups man pages. 
 In such cases, you can raise the value of MAXAGE to avoid these warnings; try a value like 25 or 30.
 
+#### Still having stale errors in the driver 2
+
+The errors still persist and now I decided to test compiling and installing the latest version.
+
+Build:
+
+```bash
+nut:x:132:143::/var/lib/nut:/usr/sbin/nologin
+uid=132(nut) gid=143(nut) grupos=143(nut)
+
+./configure --with-group=nut --with-user=nut --with-openssl --with-ssl
+```
+
+Enable services after build and install
+
+```bash
+sudo systemctl enable nut-server.service
+sudo systemctl enable ups-monitor.service
+sudo systemctl enable nut-driver-enumerator.path
+
+sudo systemctl enable nut.target
+sudo systemctl enable nut-driver.target
+```
+
+Services enabled
+
+```bash
+$ sudo systemctl status nut-server
+● nut-server.service - Network UPS Tools - power devices information server
+     Loaded: loaded (/lib/systemd/system/nut-server.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2023-06-06 15:05:31 -03; 3min 12s ago
+    Process: 4709 ExecStartPre=/usr/bin/systemd-tmpfiles --create /usr/lib/tmpfiles.d/nut-common-tmpfiles.conf (code=exit>
+   Main PID: 4710 (upsd)
+      Tasks: 1 (limit: 18792)
+     Memory: 1.0M
+        CPU: 8ms
+     CGroup: /system.slice/nut-server.service
+             └─4710 /usr/local/ups/sbin/upsd -F
+
+$ sudo systemctl status nut-monitor.service
+● nut-monitor.service - Network UPS Tools - power device monitor and shutdown controller
+     Loaded: loaded (/lib/systemd/system/nut-monitor.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2023-06-06 15:05:31 -03; 3min 32s ago
+    Process: 4711 ExecStartPre=/usr/bin/systemd-tmpfiles --create /usr/lib/tmpfiles.d/nut-common-tmpfiles.conf (code=exit>
+   Main PID: 4712 (upsmon)
+      Tasks: 2 (limit: 18792)
+     Memory: 2.0M
+        CPU: 7ms
+     CGroup: /system.slice/nut-monitor.service
+             ├─4712 /usr/local/ups/sbin/upsmon -F
+             └─4714 /usr/local/ups/sbin/upsmon -F
+
+$ sudo systemctl status nut-driver-enumerator.service
+○ nut-driver-enumerator.service - Network UPS Tools - enumeration of configure-file devices into systemd unit instances
+     Loaded: loaded (/lib/systemd/system/nut-driver-enumerator.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Tue 2023-06-06 15:04:48 -03; 4min 45s ago
+TriggeredBy: ● nut-driver-enumerator.path
+    Process: 846 ExecStartPre=/usr/bin/systemd-tmpfiles --create /usr/lib/tmpfiles.d/nut-common-tmpfiles.conf (code=exite>
+    Process: 876 ExecStart=/usr/local/ups/libexec/nut-driver-enumerator.sh (code=exited, status=0/SUCCESS)
+   Main PID: 876 (code=ex
+
+$ sudo systemctl status nut-driver-enumerator.path
+● nut-driver-enumerator.path
+     Loaded: loaded (/lib/systemd/system/nut-driver-enumerator.path; enabled; vendor preset: enabled)
+     Active: active (waiting) since Tue 2023-06-06 15:04:48 -03; 5min ago
+   Triggers: ● nut-driver-enumerator.service
+
+● nut.target - Network UPS Tools - target for power device drivers, data server and monitoring client (if enabled) on thi>
+     Loaded: loaded (/lib/systemd/system/nut.target; enabled; vendor preset: enabled)
+     Active: active since Tue 2023-06-06 15:05:31 -03; 4min 41s ago
+
+$ sudo systemctl status nut-driver.target
+● nut-driver.target - Network UPS Tools - target for power device drivers on this system
+     Loaded: loaded (/lib/systemd/system/nut-driver.target; enabled; vendor preset: enabled)
+     Active: active since Tue 2023-06-06 15:05:31 -03; 4min 55s ago
+```
+
+Teste
+
+```bash
+$ upsc tsshara
+battery.charge: 100
+battery.runtime: 18000
+battery.voltage: 27.40
+battery.voltage.high: 26.00
+battery.voltage.low: 20.80
+battery.voltage.nominal: 24.00
+device.mfr: TS SHARA
+device.model: SENO1.5kVA
+device.type: ups
+driver.debug: 0
+driver.flag.allow_killpower: 0
+driver.name: nutdrv_qx
+driver.parameter.pollfreq: 30
+driver.parameter.pollinterval: 2
+driver.parameter.port: /dev/ttyTSSHARA0
+driver.parameter.runtimecal: 1800,100,3600,50
+driver.parameter.synchronous: auto
+driver.state: quiet
+driver.version: 2.8.0-2188-gea70687bf
+driver.version.data: Megatec 0.06
+driver.version.internal: 0.32
+input.current.nominal: 100.0
+input.frequency: 60.0
+input.frequency.nominal: 60
+input.voltage: 217.0
+input.voltage.fault: 217.0
+input.voltage.nominal: 115
+output.voltage: 111.0
+ups.beeper.status: enabled
+ups.delay.shutdown: 30
+ups.delay.start: 180
+ups.firmware: 23.002.001
+ups.load: 0
+ups.status: OL
+ups.temperature: 26.0
+ups.type: offline / line interactive
+```
+
 ## UPSLOG
 
 Settings for storing log status and rotation
