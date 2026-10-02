@@ -456,6 +456,76 @@ ups.temperature: 26.0
 ups.type: offline / line interactive
 ```
 
+### Nobreak UPS Senoidal Universal 2000VA – Linha XPro (Modelo 4540)
+
+[Nobreak UPS Senoidal Universal 2000VA – Linha XPro](https://tsshara.com.br/produto/nobreak-ups-senoidal-universal-2000va-linha-xpro/) ([manual PDF](https://tsshara.com.br/wp-content/uploads/2022/11/Manual-UPS-Professional-e-Senoidal-1500-1800-2000-SITE-VERSION.pdf))
+
+I tested the TS Shara **4540**, from the XPro line (2000VA, power factor 0.7 = 1400W, bivolt auto-sensing input,
+115V/220V selectable output via rear switch, 2 x 12V/9Ah internal batteries = 24V pack, 8 outlets all battery-backed),
+on SparkyLinux 9 (Debian-based) with the distribution NUT 2.8.5 packages and it also worked perfectly using the
+same **nutdrv_qx** driver with the **megatec** protocol.
+
+Note: in recent NUT releases (2.8.x) the `blazer_ser` driver was removed, so for this model `nutdrv_qx` is the
+only option of the two — and it works.
+
+The USB interface enumerates with the same IDs as the previous models (`0483:5740` STMicroelectronics Virtual COM Port),
+so the same udev rule applies unchanged.
+
+**/etc/nut/ups.conf**
+
+```toml
+[tsshara]
+  driver = "nutdrv_qx"
+  port = "/dev/ttyTSSHARA0"
+  desc = "TS Shara 4540 Nobreak Senoidal Universal"
+  protocol = "megatec"
+  default.battery.voltage.high = "24.40"
+  default.battery.voltage.low = "21.00"
+  default.battery.voltage.nominal = "24.00"
+  pollinterval = 5
+```
+
+Typical protocol exchange (serial terminal at 2400 8N1 — same baud rate as the other models):
+
+```
+Q1 -> (212.0 212.0 108.0 000 60.0 27.2 23.0 00001001
+F  -> #Univ.     100 24.00 60.0
+```
+
+The `F` reply confirms the 24V battery pack.
+
+#### Factory battery charge curve
+
+The official TSApp Desktop application (available at tsshara.com.br) does **not** use a linear voltage estimate
+for the displayed charge. Its code (an Electron application, module `core/battery/calc-soc.js`) carries a lookup
+table for the battery state of charge — for 24V packs (12V packs use the same table halved, auto-detected by an
+18V threshold):
+
+| Voltage | 24.40 | 24.18 | 23.96 | 23.74 | 23.52 | 23.28 | 23.06 | 22.84 | 22.62 | 21.82 | 21.00 |
+|---------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| SOC %   | 100   | 90    | 80    | 70    | 60    | 50    | 40    | 30    | 20    | 10    | 0     |
+
+with linear interpolation between the points.
+
+Aligning the megatec driver's linear estimate with this factory curve is just a matter of setting
+`default.battery.voltage.high = "24.40"` and `default.battery.voltage.low = "21.00"` as shown above.
+With the 26.00/20.80 endpoints the displayed charge stayed stuck around 84% with a fully charged battery
+(floating at ~27.4V because the charger always shows the boost voltage on Q1).
+
+#### Observed quirks (our unit reported firmware V010208072)
+
+- `ups.load` reads **0** until the first real on-battery run — the load measurement only "wakes up" after the
+  inverter runs once. A short plug-pull test is enough; after that it reports correctly on line and on battery
+  (~20% here with a PC + 46" TV + switch + ONU). The 4438 sample above shows `ups.load: 0` too, so this quirk
+  is probably common to the family.
+- When the line power is restored, the telemetry freezes for ~15 seconds (input.voltage stuck at 0.0, other
+  values frozen) while the MCU re-syncs, then it recovers by itself. `DEADTIME 30` in upsmon.conf avoids
+  spurious "data stale" warnings during this window.
+- Battery runtime estimates should not be trusted until a real `runtimecal` is measured for this model
+  (I left it unset and do the calibration before relying on `battery.runtime`).
+- The official application doesn't have a model database: it detects the UPS by sending `I` and checking that
+  the reply contains the substring `TS` — which matches the `#TS ...` identification reply of this model.
+
 ## UPSLOG
 
 Settings for storing log status and rotation
